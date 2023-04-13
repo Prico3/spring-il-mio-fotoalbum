@@ -3,11 +3,22 @@
 <head>
     <th:block th:replace="/fragments/resources :: head"></th:block>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Photos</title>
 </head>
 <body>
+<th:block th:replace="/fragments/navbar :: navbar"></th:block>
+
 <div class="container">
-    <h1>Photos</h1>
+    <h1>Photos
+        <a th:href="@{/photos/create}"
+           class="btn btn-secondary rounded-circle"
+           title="add photo"
+
+        >
+            <i class="fa-solid fa-plus"></i>
+
+        </a>
+    </h1>
     <table class="table">
         <thead>
         <tr>
@@ -15,6 +26,7 @@
             <th>Description</th>
             <th>Photo</th>
             <th>Visible</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -26,7 +38,35 @@
                     <img th:src="*{img}" th:alt="*{title}">
                 </div>
             </td>
-            <td th:text="*{visible}"></td>
+            <td>
+                <th:block th:if="${true}">
+                    <dd><i class="fa-solid fa-eye"></i></dd>
+                </th:block>
+                <th:block th:if="${false}">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </th:block>
+            </td>
+            <td>
+                <a th:href="@{|/photos/*{id}|}" class="btn btn-secondary btn-sm" title="detail">
+                    <i class="fa-solid fa-image"></i>
+                </a>
+                <!--                <a-->
+                <!--                        th:href="@{|/pizzas/edit/*{id}|}"-->
+                <!--                        class="btn btn-secondary btn-sm"-->
+                <!--                        title="edit"-->
+                <!--                        sec:authorize="hasAuthority('ADMIN')"-->
+                <!--                >-->
+                <!--                    <i class="fa-regular fa-pen-to-square text-light"></i>-->
+                <!--                </a>-->
+                <!--                <a-->
+                <!--                        th:href="@{|/pizzas/delete/*{id}|}"-->
+                <!--                        class="btn btn-secondary btn-sm"-->
+                <!--                        title="delete"-->
+                <!--                        sec:authorize="hasAuthority('ADMIN')"-->
+                <!--                >-->
+                <!--                    <i class="fa-solid fa-trash-can"></i>-->
+                <!--                </a>-->
+            </td>
         </tr>
         </tbody>
     </table>

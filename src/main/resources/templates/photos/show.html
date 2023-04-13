@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/resources :: head"></th:block>
+    <meta charset="UTF-8">
+    <title>Photo details</title>
+</head>
+<body>
+<th:block th:replace="/fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <div class="container text-center" th:object="${photo}">
+        <h1 th:text="|*{title} details|"></h1>
+        <dl>
+            <dt>Photo</dt>
+            <img th:src="*{img}" th:alt="*{title}">
+
+            <dt>Description</dt>
+            <dd th:text="*{description}"></dd>
+
+            <dt>Visible</dt>
+            <th:block th:if="${true}">
+                <dd><i class="fa-solid fa-eye"></i></dd>
+            </th:block>
+            <th:block th:if="${false}">
+                <i class="fa-solid fa-eye-slash"></i>
+            </th:block>
+
+            <dt>Created</dt>
+            <dd th:text="${#temporals.format(photo.createdAt,'dd/MM/yyyy HH:mm')}"></dd>
+
+        </dl>
+
+
+    </div>
+</div>
+
+
+</body>
+</html>
