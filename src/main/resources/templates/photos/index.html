@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Photos</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Photo</th>
+        <th>Visible</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="photo : ${list}" th:object="${photo}">
+        <td th:text="*{title}"></td>
+        <td th:text="*{description}"></td>
+        <td>
+            <div>
+                <img th:src="*{img}" th:alt="*{title}">
+            </div>
+        </td>
+        <td th:text="*{visible}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:each="photo : ${list}" th:object="${photo}">
+
+    <img th:src="*{img}" th:alt="*{title}">
+</div>
+
+</body>
+</html>
