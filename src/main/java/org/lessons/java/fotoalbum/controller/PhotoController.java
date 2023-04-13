@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -57,6 +55,12 @@ public class PhotoController {
     public String create(Model model) {
         model.addAttribute("photo", new Photo());
         return "/photos/create";
+    }
+
+    @PostMapping("/create")
+    public String doCreate(@ModelAttribute Photo formPhoto) {
+        photoRepository.save(formPhoto);
+        return "redirect:/photos";
     }
 
 //    @PostMapping("/create")
