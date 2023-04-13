@@ -1,0 +1,28 @@
+<!-- con questo gestisco tutte le pagine di errore 400 -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{ fragments/resources :: resources }"></th:block>
+    <title>Error [[${status}]]</title>
+</head>
+<body class="bg-warning text-light">
+<div class="container text-center">
+
+    <h1 class=" mt-5">
+        <i class="fa-solid fa-gear"></i>OOOPS Client Error!
+    </h1>
+
+    <h4 class="mt-5">
+        <a class="text-decoration-none" th:href="@{/}">Go back home page</a>
+    </h4>
+
+</div>
+
+<div th:if="${exception}">
+    <p th:text="${exception}"></p>
+    <p th:text="${trace}"></p>
+
+</div>
+
+</body>
+</html>
