@@ -24,6 +24,16 @@ public class PhotoService {
         return photoRepository.save(formPhoto);
     }
 
+    public Photo updatePhoto(Photo formPhoto, Integer id) throws RuntimeException {
+        Photo pizzaToUpdate = getById(id);
+        pizzaToUpdate.setTitle(formPhoto.getTitle());
+        pizzaToUpdate.setDescription(formPhoto.getDescription());
+        pizzaToUpdate.setImgPath(formPhoto.getImgPath());
+        pizzaToUpdate.setVisible(formPhoto.isVisible());
+
+        return photoRepository.save(pizzaToUpdate);
+    }
+
     public List<Photo> getAllPhotos() {
         return photoRepository.findAll(Sort.by("title"));
 
@@ -34,7 +44,7 @@ public class PhotoService {
         return photoRepository.findByTitleContainingIgnoreCase(keyword);
     }
 
-    public Photo findById(Integer id) throws RuntimeException {
+    public Photo getById(Integer id) throws RuntimeException {
         Optional<Photo> result = photoRepository.findById(id);
         if (result.isPresent()) {
             return result.get();
@@ -42,5 +52,6 @@ public class PhotoService {
             throw new RuntimeException("Photo not found");
         }
     }
+
 
 }

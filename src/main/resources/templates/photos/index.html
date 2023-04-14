@@ -52,14 +52,14 @@
                 <a th:href="@{|/photos/*{id}|}" class="btn btn-secondary btn-sm" title="detail">
                     <i class="fa-solid fa-image"></i>
                 </a>
-                <!--                <a-->
-                <!--                        th:href="@{|/pizzas/edit/*{id}|}"-->
-                <!--                        class="btn btn-secondary btn-sm"-->
-                <!--                        title="edit"-->
-                <!--                        sec:authorize="hasAuthority('ADMIN')"-->
-                <!--                >-->
-                <!--                    <i class="fa-regular fa-pen-to-square text-light"></i>-->
-                <!--                </a>-->
+                <a
+                        th:href="@{|/photos/edit/*{id}|}"
+                        class="btn btn-secondary btn-sm"
+                        title="edit">
+                    <!--                                        sec:authorize="hasAuthority('ADMIN')"-->
+
+                    <i class="fa-regular fa-pen-to-square text-light"></i>
+                </a>
                 <!--                <a-->
                 <!--                        th:href="@{|/pizzas/delete/*{id}|}"-->
                 <!--                        class="btn btn-secondary btn-sm"-->
