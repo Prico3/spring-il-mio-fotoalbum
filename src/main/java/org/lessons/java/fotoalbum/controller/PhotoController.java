@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -119,5 +120,27 @@ public class PhotoController {
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo not found");
         }
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            boolean success = photoService.deleteById(id);
+            if (success) {
+                redirectAttributes.addFlashAttribute("message", "Photo deleted");
+
+            } else {
+                redirectAttributes.addFlashAttribute("message", "Unable to deleted the photo with id " + id);
+
+//                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to delete the pizza");
+            }
+        } catch (Exception e) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            redirectAttributes.addFlashAttribute("message", "Photo with id " + id + " not found");
+
+
+        }
+        return "redirect:/photos";
+
     }
 }

@@ -53,5 +53,15 @@ public class PhotoService {
         }
     }
 
+    public boolean deleteById(Integer id) {
+        photoRepository.findById(id).orElseThrow(() -> new RuntimeException(Integer.toString(id)));
+        try {
+            photoRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }

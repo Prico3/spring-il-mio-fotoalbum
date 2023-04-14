@@ -19,6 +19,12 @@
 
         </a>
     </h1>
+    <th:block th:if="${message}">
+        <div class="alert alert-info alert-dismissible fade show">
+            <div th:text="${message}"></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </th:block>
     <table class="table">
         <thead>
         <tr>
@@ -60,14 +66,14 @@
 
                     <i class="fa-regular fa-pen-to-square text-light"></i>
                 </a>
-                <!--                <a-->
-                <!--                        th:href="@{|/pizzas/delete/*{id}|}"-->
-                <!--                        class="btn btn-secondary btn-sm"-->
-                <!--                        title="delete"-->
-                <!--                        sec:authorize="hasAuthority('ADMIN')"-->
-                <!--                >-->
-                <!--                    <i class="fa-solid fa-trash-can"></i>-->
-                <!--                </a>-->
+                <a
+                        th:href="@{|/photos/delete/*{id}|}"
+                        class="btn btn-secondary btn-sm"
+                        title="delete">
+                    <!--                                        sec:authorize="hasAuthority('ADMIN')"-->
+
+                    <i class="fa-solid fa-trash-can"></i>
+                </a>
             </td>
         </tr>
         </tbody>
