@@ -1,11 +1,13 @@
 package org.lessons.java.fotoalbum.controller;
 
+import jakarta.validation.Valid;
 import org.lessons.java.fotoalbum.model.Photo;
 import org.lessons.java.fotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -59,7 +61,10 @@ public class PhotoController {
     }
 
     @PostMapping("/create")
-    public String doCreate(@ModelAttribute("photo") Photo formPhoto) {
+    public String doCreate(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "photos/create";
+        }
         Photo photoToPersist = new Photo();
         photoToPersist.setTitle(formPhoto.getTitle());
         photoToPersist.setDescription(formPhoto.getDescription());

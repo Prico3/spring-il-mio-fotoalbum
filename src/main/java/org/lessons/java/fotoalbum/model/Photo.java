@@ -1,6 +1,7 @@
 package org.lessons.java.fotoalbum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +13,12 @@ public class Photo {
     private Integer id;
 
     @Column(nullable = false)
+    @NotEmpty
     private String title;
     @Lob
+    @NotEmpty
     private String description;
+    @NotEmpty
     private String imgPath;
     private boolean visible;
 
