@@ -34,7 +34,7 @@ public class PhotoService {
         return photoRepository.findByTitleContainingIgnoreCase(keyword);
     }
 
-    public Photo findById(Integer id) {
+    public Photo findById(Integer id) throws RuntimeException {
         Optional<Photo> result = photoRepository.findById(id);
         if (result.isPresent()) {
             return result.get();
