@@ -3,6 +3,7 @@ package org.lessons.java.fotoalbum.controller;
 import jakarta.validation.Valid;
 import org.lessons.java.fotoalbum.model.Photo;
 import org.lessons.java.fotoalbum.repository.PhotoRepository;
+import org.lessons.java.fotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +20,9 @@ import java.util.Optional;
 public class PhotoController {
     @Autowired
     private PhotoRepository photoRepository;
+
+    @Autowired
+    private PhotoService photoService;
 
     @GetMapping
     public String index(Model model) {
@@ -31,28 +34,31 @@ public class PhotoController {
     @GetMapping("/{id}")
     public String show(@PathVariable Integer id, Model model) {
 
-        Optional<Photo> result = photoRepository.findById(id);
-        if (result.isPresent()) {
-            model.addAttribute("photo", result.get());
-            return "/photos/show";
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        try {
+            Photo photo = photoService.findById(id);
+            model.addAttribute("photo", photo);
+            return "photos/show";
+
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Photo not found");
+
         }
     }
 
-//    @GetMapping("/search")
-//    public String index(Model model, @RequestParam(name = "q") Optional<String> keyword) {
-//        List<Photo> pizzas;
-//        if (keyword.isEmpty()) {
-//            photos = photoService.getAllPizzas();
-//        } else {
-//            photos = pizzaService.getFilteredPizzas(keyword.get());
-//            model.addAttribute("keyword", keyword.get());
-//        }
-//        model.addAttribute("list", photos);
-//
-//        return "/pizzas/index";
-//    }
+    @GetMapping("/search")
+    public String index(Model model, @RequestParam(name = "q") Optional<String> keyword) {
+        List<Photo> photos;
+        if (keyword.isEmpty()) {
+            photos = photoService.getAllPhotos();
+        } else {
+            photos = photoService.getFilteredPhotos(keyword.get());
+            model.addAttribute("keyword", keyword.get());
+        }
+        model.addAttribute("list", photos);
+
+        return "/photos/index";
+    }
 
     @GetMapping("/create")
     public String create(Model model) {
@@ -65,12 +71,7 @@ public class PhotoController {
         if (bindingResult.hasErrors()) {
             return "photos/create";
         }
-        Photo photoToPersist = new Photo();
-        photoToPersist.setTitle(formPhoto.getTitle());
-        photoToPersist.setDescription(formPhoto.getDescription());
-        photoToPersist.setImgPath(formPhoto.getImgPath());
-        photoToPersist.setCreatedAt(LocalDateTime.now());
-        photoRepository.save(formPhoto);
+
         return "redirect:/photos";
     }
 
