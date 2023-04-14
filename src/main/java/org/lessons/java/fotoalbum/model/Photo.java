@@ -15,7 +15,7 @@ public class Photo {
     private String title;
     @Lob
     private String description;
-    private String img;
+    private String imgPath;
     private boolean visible;
 
     private LocalDateTime createdAt;
@@ -44,12 +44,12 @@ public class Photo {
         this.description = description;
     }
 
-    public String getImg() {
-        return img;
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public boolean isVisible() {

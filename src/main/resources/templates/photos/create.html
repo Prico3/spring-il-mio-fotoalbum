@@ -36,6 +36,17 @@
             <!--            </div>-->
         </div>
 
+        <div class="col-12">
+            <label class="form-label" for="imgPath">Url Image*</label>
+            <input type="text" id="imgPath" class="form-control" th:field="*{imgPath}"
+                   th:errorClass="is-invalid">
+            <!--            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">-->
+            <!--                <ul>-->
+            <!--                    <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>-->
+            <!--                </ul>-->
+            <!--            </div>-->
+        </div>
+
 
         <!--visible-->
         <div class="form-check form-switch">

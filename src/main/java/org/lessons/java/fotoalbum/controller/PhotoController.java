@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +59,12 @@ public class PhotoController {
     }
 
     @PostMapping("/create")
-    public String doCreate(@ModelAttribute Photo formPhoto) {
+    public String doCreate(@ModelAttribute("photo") Photo formPhoto) {
+        Photo photoToPersist = new Photo();
+        photoToPersist.setTitle(formPhoto.getTitle());
+        photoToPersist.setDescription(formPhoto.getDescription());
+        photoToPersist.setImgPath(formPhoto.getImgPath());
+        photoToPersist.setCreatedAt(LocalDateTime.now());
         photoRepository.save(formPhoto);
         return "redirect:/photos";
     }

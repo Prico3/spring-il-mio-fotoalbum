@@ -35,16 +35,18 @@
             <td th:text="*{description}"></td>
             <td>
                 <div>
-                    <img th:src="*{img}" th:alt="*{title}">
+                    <img th:src="*{imgPath}" th:alt="*{title}">
                 </div>
             </td>
             <td>
-                <th:block th:if="${true}">
-                    <dd><i class="fa-solid fa-eye"></i></dd>
-                </th:block>
-                <th:block th:if="${false}">
-                    <i class="fa-solid fa-eye-slash"></i>
-                </th:block>
+                <span th:if="${true}">will be rendered</span>
+                <span th:unless="${false}">won't be rendered</span>
+                <!--                <th:block th:if="${true}">-->
+                <!--                    <dd><i class="fa-solid fa-eye"></i></dd>-->
+                <!--                </th:block>-->
+                <!--                <th:block th:if="${false}">-->
+                <!--                    <i class="fa-solid fa-eye-slash"></i>-->
+                <!--                </th:block>-->
             </td>
             <td>
                 <a th:href="@{|/photos/*{id}|}" class="btn btn-secondary btn-sm" title="detail">
@@ -70,10 +72,7 @@
         </tr>
         </tbody>
     </table>
-    <div th:each="photo : ${list}" th:object="${photo}">
 
-        <img th:src="*{img}" th:alt="*{title}">
-    </div>
 </div>
 
 
