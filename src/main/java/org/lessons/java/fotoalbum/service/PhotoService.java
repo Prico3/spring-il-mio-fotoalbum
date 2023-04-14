@@ -25,13 +25,13 @@ public class PhotoService {
     }
 
     public Photo updatePhoto(Photo formPhoto, Integer id) throws RuntimeException {
-        Photo pizzaToUpdate = getById(id);
-        pizzaToUpdate.setTitle(formPhoto.getTitle());
-        pizzaToUpdate.setDescription(formPhoto.getDescription());
-        pizzaToUpdate.setImgPath(formPhoto.getImgPath());
-        pizzaToUpdate.setVisible(formPhoto.isVisible());
+        Photo photoToUpdate = getById(id);
+        photoToUpdate.setTitle(formPhoto.getTitle());
+        photoToUpdate.setDescription(formPhoto.getDescription());
+        photoToUpdate.setImgPath(formPhoto.getImgPath());
+        photoToUpdate.setVisible(formPhoto.isVisible());
 
-        return photoRepository.save(pizzaToUpdate);
+        return photoRepository.save(photoToUpdate);
     }
 
     public List<Photo> getAllPhotos() {
@@ -61,6 +61,14 @@ public class PhotoService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public boolean validName(Photo photoToValidate) {
+        //verifico se su sul DB esistte una photo con lo stesso nome di photoToValidate
+        if (photoToValidate.getId() == null) {
+            return !photoRepository.existsByTitle(photoToValidate.getTitle());
+        }
+        return !photoRepository.existsByTitleAndIdNot(photoToValidate.getTitle(), photoToValidate.getId());
     }
 
 

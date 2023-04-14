@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -60,35 +62,35 @@ public class PhotoController {
         return "/photos/create";
     }
 
+//    @PostMapping("/create")
+//    public String doCreate(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            return "photos/create";
+//        }
+//        photoService.createPhoto(formPhoto);
+//
+//        return "redirect:/photos";
+//    }
+
     @PostMapping("/create")
-    public String doCreate(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public String doCreate(@Validated @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
+        //Validazione
+        boolean hasErrors = bindingResult.hasErrors();
+        //custom name validation
+        if (!photoService.validName(formPhoto)) {
+            //aggiungo un errore al binding result
+            bindingResult.addError(new FieldError("photo", "title", formPhoto.getTitle(), false, null, null, "This title already exists"));
+            hasErrors = true;
+        }
+        if (hasErrors) {
+            //ritorno la view con il form
+//            model.addAttribute("ingredientList", ingredientService.getAll());
             return "photos/create";
         }
+        //se non ci sono errori lo persisto
         photoService.createPhoto(formPhoto);
-
         return "redirect:/photos";
     }
-
-//    @PostMapping("/create")
-//    public String doCreate(@Validated @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
-//        //Validazione
-//        boolean hasErrors = bindingResult.hasErrors();
-//        //custom name validation
-//        if (!pizzaService.validName(formPizza)) {
-//            //aggiungo un errore al binding result
-//            bindingResult.addError(new FieldError("pizza", "name", formPizza.getName(), false, null, null, "Esiste già una pizza con questo nome"));
-//            hasErrors = true;
-//        }
-//        if (hasErrors) {
-//            //ritorno la view con il form
-//            model.addAttribute("ingredientList", ingredientService.getAll());
-//            return "pizzas/create";
-//        }
-//        //se non ci sono errori lo persisto
-//        pizzaService.createPizza(formPizza);
-//        return "redirect:/pizzas";
-//    }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
@@ -104,16 +106,16 @@ public class PhotoController {
     @PostMapping("/edit/{id}")
     public String doEdit(@PathVariable Integer id, @Valid @ModelAttribute("pizza") Photo formPhoto, BindingResult bindingResult, Model model) {
         //Validazioni
-//        if (!photoService.validName(formPizza)) {
-//            //aggiungo un errore al binding result
-//            bindingResult.addError(new FieldError("pizza", "name", formPizza.getName(), false, null, null, "Esiste già una pizza con questo nome"));
-//        }
-//        if (bindingResult.hasErrors()) {
-//            //ricreo la view precompilata
+        if (!photoService.validName(formPhoto)) {
+            //aggiungo un errore al binding result
+            bindingResult.addError(new FieldError("photo", "title", formPhoto.getTitle(), false, null, null, "This title already exists"));
+        }
+        if (bindingResult.hasErrors()) {
+            //ricreo la view precompilata
 //            model.addAttribute("ingredientList", ingredientService.getAll());
-//            return "/pizzas/edit";
-//        }
-        //persisto la pizza
+            return "/photos/edit";
+        }
+        //persisto la photo
         try {
             Photo updatePhoto = photoService.updatePhoto(formPhoto, id);
             return "redirect:/photos/" + Integer.toString(updatePhoto.getId());
