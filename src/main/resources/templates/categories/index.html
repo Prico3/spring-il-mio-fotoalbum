@@ -16,7 +16,7 @@
             <ul class="list-group">
                 <li class="list-group-item" th:each="item : ${list}">
                     <h5 th:text="${item.name}"></h5>
-                    <!--                    <a th:href="@{/categories(id=${item.id})}">Edit</a>-->
+                    <a th:href="@{/categories(id=${item.id})}">Edit</a>
                 </li>
             </ul>
         </div>
@@ -39,17 +39,7 @@
                         </ul>
                     </div>
                 </div>
-                <!-- description -->
-                <div class="col-12">
-                    <label class="form-label" for="description">Description</label>
-                    <input type="text" id="description" class="form-control" th:field="*{description}"
-                           th:errorClass="is-invalid">
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
-                        <ul>
-                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
-                        </ul>
-                    </div>
-                </div>
+
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
@@ -57,10 +47,7 @@
         </div>
     </div>
 
-    <!-- alert only if list is empty -->
-    <th:block th:unless="${list.size() > 0}">
-        <div th:replace="~{/fragments/messages :: alert('INFO', 'The list is empty')}"></div>
-    </th:block>
+
 </div>
 
 </body>
