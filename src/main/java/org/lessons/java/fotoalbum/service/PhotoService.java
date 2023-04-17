@@ -21,6 +21,7 @@ public class PhotoService {
         photoToPersist.setDescription(formPhoto.getDescription());
         photoToPersist.setImgPath(formPhoto.getImgPath());
         photoToPersist.setCreatedAt(LocalDateTime.now());
+        photoToPersist.setCategories(formPhoto.getCategories());
         return photoRepository.save(formPhoto);
     }
 
@@ -30,6 +31,7 @@ public class PhotoService {
         photoToUpdate.setDescription(formPhoto.getDescription());
         photoToUpdate.setImgPath(formPhoto.getImgPath());
         photoToUpdate.setVisible(formPhoto.isVisible());
+        photoToUpdate.setCategories(formPhoto.getCategories());
 
         return photoRepository.save(photoToUpdate);
     }

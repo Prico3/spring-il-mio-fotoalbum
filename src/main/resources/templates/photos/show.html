@@ -19,15 +19,10 @@
             <dd th:text="*{description}"></dd>
 
             <dt>Visible</dt>
-            <th:block th:if="${true}">
-                <dd><i class="fa-solid fa-eye"></i></dd>
-            </th:block>
-            <th:block th:if="${false}">
-                <i class="fa-solid fa-eye-slash"></i>
-            </th:block>
 
-            <dt>Created</dt>
-            <dd th:text="${#temporals.format(photo.createdAt,'dd/MM/yyyy HH:mm')}"></dd>
+            <dt>Categories</dt>
+            <dd><span th:each="cat: *{categories}" th:text="${cat.name}" class="me-2"></span></dd>
+
 
         </dl>
 

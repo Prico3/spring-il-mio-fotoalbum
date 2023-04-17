@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "photos")
@@ -23,6 +24,8 @@ public class Photo {
     private boolean visible;
 
     private LocalDateTime createdAt;
+    @ManyToMany
+    private Set<Category> categories;
 
     public Integer getId() {
         return id;
@@ -70,5 +73,13 @@ public class Photo {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

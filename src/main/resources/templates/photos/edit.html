@@ -47,11 +47,22 @@
 
 
         <!--visible-->
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="visible" th:field="*{visible}">
-            <label class="form-check-label" for="visible">Display this image?</label>
+        <div class="col-12">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="visible" th:field="*{visible}">
+                <label class="form-check-label" for="visible">Display this image?</label>
+            </div>
         </div>
 
+        <!--        categories-->
+
+        <div clas="col-12">
+            <div class="form-check" th:each="cat : ${categoryList}">
+                <input class="form-check-input" type="checkbox" th:value="${cat.id}" th:id="|cat_${cat.id}|"
+                       th:field="*{categories}">
+                <label class="form-check-label" th:for="|cat_${cat.id}|" th:text="${cat.name}"></label>
+            </div>
+        </div>
 
         <div class="col-12">
             <a class="btn btn-secondary" th:href="@{/photos}">Cancel</a>

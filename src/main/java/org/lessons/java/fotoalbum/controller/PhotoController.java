@@ -2,6 +2,7 @@ package org.lessons.java.fotoalbum.controller;
 
 import jakarta.validation.Valid;
 import org.lessons.java.fotoalbum.model.Photo;
+import org.lessons.java.fotoalbum.service.CategoryService;
 import org.lessons.java.fotoalbum.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class PhotoController {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping()
     public String index(Model model, @RequestParam(name = "q") Optional<String> keyword) {
@@ -59,18 +63,9 @@ public class PhotoController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("photo", new Photo());
+        model.addAttribute("categoryList", categoryService.getAll());
         return "/photos/create";
     }
-
-//    @PostMapping("/create")
-//    public String doCreate(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "photos/create";
-//        }
-//        photoService.createPhoto(formPhoto);
-//
-//        return "redirect:/photos";
-//    }
 
     @PostMapping("/create")
     public String doCreate(@Validated @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
@@ -84,7 +79,7 @@ public class PhotoController {
         }
         if (hasErrors) {
             //ritorno la view con il form
-//            model.addAttribute("ingredientList", ingredientService.getAll());
+            model.addAttribute("categoryList", categoryService.getAll());
             return "photos/create";
         }
         //se non ci sono errori lo persisto
@@ -97,6 +92,7 @@ public class PhotoController {
         try {
             Photo photo = photoService.getById(id);
             model.addAttribute("photo", photo);
+            model.addAttribute("categoryList", categoryService.getAll());
             return "/photos/edit";
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "pizza with id " + id + " not found");
@@ -112,7 +108,7 @@ public class PhotoController {
         }
         if (bindingResult.hasErrors()) {
             //ricreo la view precompilata
-//            model.addAttribute("ingredientList", ingredientService.getAll());
+            model.addAttribute("categoryList", categoryService.getAll());
             return "/photos/edit";
         }
         //persisto la photo

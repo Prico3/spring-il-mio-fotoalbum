@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/fragments/resources :: head"></th:block>
+    <meta charset="UTF-8">
+    <title>Photos</title>
+</head>
+<body>
+<th:block th:replace="/fragments/navbar :: navbar"></th:block>
+
+<div class="container">
+    <h1>Categories</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <ul class="list-group">
+                <li class="list-group-item" th:each="item : ${list}">
+                    <h5 th:text="${item.name}"></h5>
+                    <!--                    <a th:href="@{/categories(id=${item.id})}">Edit</a>-->
+                </li>
+            </ul>
+        </div>
+        <div class="col-6">
+            <form
+                    id="category-form"
+                    method="post"
+                    th:action="@{/categories/save}"
+                    th:object="${categoryObj}"
+            >
+                <input type="hidden" th:field="*{id}">
+                <!-- name -->
+                <div class="col-12">
+                    <label class="form-label" for="name">Name*</label>
+                    <input type="text" id="name" class="form-control" th:field="*{name}"
+                           th:errorClass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- description -->
+                <div class="col-12">
+                    <label class="form-label" for="description">Description</label>
+                    <input type="text" id="description" class="form-control" th:field="*{description}"
+                           th:errorClass="is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- alert only if list is empty -->
+    <th:block th:unless="${list.size() > 0}">
+        <div th:replace="~{/fragments/messages :: alert('INFO', 'The list is empty')}"></div>
+    </th:block>
+</div>
+
+</body>
+</html>
